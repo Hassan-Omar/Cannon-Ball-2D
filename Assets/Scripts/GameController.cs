@@ -57,9 +57,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     public void StartGame()
     {
-        instAdManager = admanger.GetComponent<AdManager>();
-        if (instAdManager != null)
-            text.text = "not null y 3m el7aaag";
+        instAdManager = admanger.GetComponent<AdManager>(); 
         bottomMenu.transform.SetParent(mainmenu.transform);
         bottomMenu.SetActive(false);
         optMainMenu.SetActive(false);
@@ -94,11 +92,14 @@ public class GameController : MonoBehaviour
     public void increaseFailsNum()
     {
         this.failsNum += 1;
+        text.text = failsNum.ToString();
     }
 
     public void resetFailsNum()
     {
         this.failsNum = 0;
+        text.text = failsNum.ToString();
+
     }
 
 
@@ -192,7 +193,7 @@ public class GameController : MonoBehaviour
         }
         catch(System.Exception e)
         {
-            text.text += ("----"+e);
+            //text.text += ("----"+e);
         }
         
 

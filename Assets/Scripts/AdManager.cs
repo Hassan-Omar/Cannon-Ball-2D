@@ -6,27 +6,23 @@ using System;
 using GoogleMobileAds.Api;
 
 public class AdManager : MonoBehaviour
-{
-    //public GameObject Adprefab;
-    private Text adHint;
-    private GameObject rewardedAdPanel;
-    // public Canvas control;
+{ 
     public bool flag = false;
 
     // this will be instance of my 
     public static AdManager instance;
 
-    private string appID = "ca-app-pub-3940256099942544~3347511713";
+    private string appID = "ca-app-pub-3097712600531288~4560853814";
 
     // private BannerView bannerView;
-    //private string bannerID = "ca-app-pub-3940256099942544/6300978111";
+    //private string bannerID = "ca-app-pub-3097712600531288/8308527135";
 
     private InterstitialAd fullScreenAd;
-    private string fullScreenAdID = "ca-app-pub-3940256099942544/1033173712";
+    private string fullScreenAdID = "ca-app-pub-3097712600531288/2840578037";
 
 
     private RewardedAd rewardedAd;
-    private string rewardedAdID = "ca-app-pub-3940256099942544/5224354917";
+    private string rewardedAdID = "ca-app-pub-3097712600531288/4832316550";
 
     //+++++++++++++++++++++++++++++++++++++++++    Initialization    +++++++++++++++++++++++++++++++++++++++++++++++++
     private void Awake()
@@ -44,9 +40,9 @@ public class AdManager : MonoBehaviour
 
     private void Start()
     {
-         appID = "ca-app-pub-3940256099942544~3347511713";
-         fullScreenAdID = "ca-app-pub-3940256099942544/1033173712";
-         rewardedAdID = "ca-app-pub-3940256099942544/5224354917";
+         appID = "ca-app-pub-3097712600531288~4560853814";
+         fullScreenAdID = "ca-app-pub-3097712600531288/2840578037";
+         rewardedAdID = "ca-app-pub-3097712600531288/4832316550";
 
         MobileAds.Initialize(appID);
 
@@ -125,8 +121,7 @@ public class AdManager : MonoBehaviour
     public void HandleOnAdClosed(object sender, EventArgs args)
     {
         MonoBehaviour.print("HandleAdClosed event received");
-        rewardedAdPanel.SetActive(true);
-        adHint.text = "Thank you for Supporting Us";
+
 
     }
 
