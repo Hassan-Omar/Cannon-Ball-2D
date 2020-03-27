@@ -5,31 +5,30 @@ using UnityEngine.UI;
 using System;
 using GoogleMobileAds.Api;
 
-/*
- * This Class Written by H.Omar 
- * 
- * this class will manage & request ads using AdMob 
- *  ((Rewarded ad not Implmented --Commented-- because the Reference Vedio Doesn't Contains Rewarded)) 
- */
-
 public class AdManager : MonoBehaviour
-{  
+{
+    //public GameObject Adprefab;
+    private Text adHint;
+    private GameObject rewardedAdPanel;
+    // public Canvas control;
+    public bool flag = false;
+
     // this will be instance of my 
     public static AdManager instance;
 
     private string appID = "ca-app-pub-3940256099942544~3347511713";
 
-    private BannerView bannerView;
-    private string bannerID = "ca-app-pub-3940256099942544/6300978111";
+    // private BannerView bannerView;
+    //private string bannerID = "ca-app-pub-3940256099942544/6300978111";
 
     private InterstitialAd fullScreenAd;
     private string fullScreenAdID = "ca-app-pub-3940256099942544/1033173712";
 
 
-    //private RewardedAd rewardedAd;
-    //private string rewardedAdID = "ca-app-pub-3097712600531288/1556136399";
+    private RewardedAd rewardedAd;
+    private string rewardedAdID = "ca-app-pub-3940256099942544/5224354917";
 
-    //+++++++++++++++++++++++++++++++++++++++++ Initialization +++++++++++++++++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++    Initialization    +++++++++++++++++++++++++++++++++++++++++++++++++
     private void Awake()
     {
         if (instance == null)
@@ -45,45 +44,32 @@ public class AdManager : MonoBehaviour
 
     private void Start()
     {
-        // Initialize MobileAds and Request 
+         appID = "ca-app-pub-3940256099942544~3347511713";
+         fullScreenAdID = "ca-app-pub-3940256099942544/1033173712";
+         rewardedAdID = "ca-app-pub-3940256099942544/5224354917";
+
         MobileAds.Initialize(appID);
-        RequestBanner();
+
         RequestFullScreenAd();
 
-        
+        //rewardedAd = new RewardedAd(rewardedAdID);
 
-        //RequestRewardedAd();
+        RequestRewardedAd();
 
         // Called when Intersitial is closed.
-        //fullScreenAd.OnAdClosed += HandleOnAdClosed;
+        fullScreenAd.OnAdClosed += HandleOnAdClosed;
 
 
 
         // Called when the user should be rewarded for interacting with the ad.
-        //rewardedAd.OnUserEarnedReward += HandleUserEarnedReward;
+        rewardedAd.OnUserEarnedReward += HandleUserEarnedReward;
 
         // Called when the ad is closed.
-        //rewardedAd.OnAdClosed += HandleRewardedAdClosed;
+        rewardedAd.OnAdClosed += HandleRewardedAdClosed;
 
 
     }
-
-    ///_________________________________ Banner _____________________________________________
-    
-    public void RequestBanner()
-    {
-        bannerView = new BannerView(bannerID, AdSize.Banner, AdPosition.Top);
-
-        AdRequest request = new AdRequest.Builder().Build();
-        bannerView.LoadAd(request);
-
-        bannerView.Show();
-    }
-
-    public void HideBanner()
-    {
-        bannerView.Hide();
-    } 
+     
 
     ///_________________________________ Intersitial _____________________________________________
     public void RequestFullScreenAd()
@@ -104,14 +90,13 @@ public class AdManager : MonoBehaviour
             RequestFullScreenAd();
         }
         else
-        {
+        { 
             RequestFullScreenAd();
         }
     }
 
-  
 
-    /*
+
     ///________________________________ Reward Ad ______________________________________________
     public void RequestRewardedAd()
     {
@@ -134,8 +119,23 @@ public class AdManager : MonoBehaviour
         RequestRewardedAd();
 
     }
+     
 
-    //+++++++++++++++++++++++++++++  Overrides  ++++++++++++++++++++++++++++++++++++++++++ 
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public void HandleOnAdClosed(object sender, EventArgs args)
+    {
+        MonoBehaviour.print("HandleAdClosed event received");
+        rewardedAdPanel.SetActive(true);
+        adHint.text = "Thank you for Supporting Us";
+
+    }
+
+
+
+
+
+
+
     public void HandleUserEarnedReward(object sender, Reward args)
     {
         string type = args.Type;
@@ -143,13 +143,18 @@ public class AdManager : MonoBehaviour
         MonoBehaviour.print(
             "HandleRewardBasedVideoRewarded event received for "
                         + amount.ToString() + " " + type);
+
+        Time.timeScale = 1;
+
+        flag = true;
+
+
     }
 
     public void HandleRewardedAdClosed(object sender, EventArgs args)
-    { 
-        //Increment of bullts or diamonds goes here 
+    {
+        
     }
-   */
-    
+ 
 
 }

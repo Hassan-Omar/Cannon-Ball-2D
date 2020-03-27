@@ -11,6 +11,7 @@ TagManager:
   - GameManager
   - Canon
   - StarTxt
+  - Ball
   layers:
   - Default
   - TransparentFX

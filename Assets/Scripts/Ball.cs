@@ -11,9 +11,14 @@ public class Ball : MonoBehaviour
     private ScoresManager scoresManager;
     // if the ball is moving echo will apears 
     private bool isMoving;
+    // to tell me if this ball entered the basket or not 
+    private bool isToutchingBasket = false;
+    // reference on game controller 
+    private GameController gameController;
     private void Start()
     {
         scoresManager = GameObject.FindGameObjectWithTag("Engine").GetComponent<ScoresManager>();
+        gameController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameController>();
     }
 
 
@@ -29,16 +34,29 @@ public class Ball : MonoBehaviour
             colider.GetComponent<Animator>().enabled = true;
             StartCoroutine("turnOfBasketAnimator");
             //colider.transform.position.y -= Random.Range(0, 24f);
+            this.isToutchingBasket = true;
+
+            gameController.resetFailsNum();
+            gameController.increaseCanonSpeed();
+
         }
 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // when we colid to floor we should do
+        // 1- move balls one step 
+        // 2- check if the ball hit the basket 
         if (collision.collider.tag == "Floor")
         {
             GameController.toutchFlag = true;
-            GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameController>().moveBallsToMuzzle();
+
+            gameController.moveBallsToMuzzle();
+            if(!this.isToutchingBasket)
+            {
+                gameController.increaseFailsNum();
+            }
             StartCoroutine("delayDestroy");
         }
         else if (collision.collider.tag == "Basket")
@@ -53,7 +71,7 @@ public class Ball : MonoBehaviour
     // Coroutine to destroy the ball after 1 second 
     IEnumerator delayDestroy()
     {
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.6f);
         Destroy(this.gameObject);
     }
 
@@ -70,7 +88,10 @@ public class Ball : MonoBehaviour
     IEnumerator turnOfBasketAnimator()
     {
         yield return new WaitForSeconds(0.5f);
-        GameObject.FindGameObjectWithTag("Basket").GetComponent<Animator>().enabled = false;
+        if(GameObject.FindGameObjectWithTag("Basket")!=null)
+        {
+            GameObject.FindGameObjectWithTag("Basket").GetComponent<Animator>().enabled = false;
+        }
     }
     
 }

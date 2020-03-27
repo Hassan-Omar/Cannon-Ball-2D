@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+
 /*
  * This Class Written by H.Omar 
  * 
@@ -6,25 +9,66 @@
  */
 public class GameController : MonoBehaviour
 {
+    public Text text;
     public int forceValue;
     public static bool toutchFlag = true;
     // Refernce on game objs that will be created @ Run Time 
-    public GameObject star, madf3, ball, engine, scoresMenu, endGamePanel,basket;
+    public GameObject star, madf3,canon, ball, engine,admanger, scoresMenu, bottomMenu,endGamePanel, basket , mainmenu,optMainMenu;
     // the points whitch is availabe to instantiate a star
     public Vector2[] starPoints;
-    public Transform[] ballParents;
-    // this var created only to generalize the solution but itn't add value for now 
-    public int maxNumberOfBalls;
+    public Transform[] ballParents; 
+
     // to hold the value of instantaied balls 
-    private GameObject[] instance_balls =new GameObject[3];
+    private GameObject[] instance_balls = new GameObject[3];
     private int ballCounter;
+    // keep the mumber of failing 
+    private int failsNum;
+    // reference on refile sound 
+    private AudioSource refile; 
+
+    private AdManager instAdManager;
+
+    // fill canon with 3 balls 
+    private void fillCanon()
+    {
+        // create the balls inside canon 
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject instance = Instantiate(ball, ballParents[i]);
+            instance.GetComponent<Rigidbody2D>().isKinematic = true;
+            instance_balls[i] = instance;
+        }
+    }
+
+    // fill canon after small delay
+
+
+
+    IEnumerator delayRefileCanon()
+    {
+        // we can ad refile sound now 
+        refile.Play();
+        yield return new WaitForSeconds(1.5f);
+        fillCanon();
+
+        Debug.Log("Called ===> " + ballCounter);
+    }
 
     // Start is called before the first frame update
     public void StartGame()
     {
+        instAdManager = admanger.GetComponent<AdManager>();
+        if (instAdManager != null)
+            text.text = "not null y 3m el7aaag";
+        bottomMenu.transform.SetParent(mainmenu.transform);
+        bottomMenu.SetActive(false);
+        optMainMenu.SetActive(false);
+        refile = this.GetComponent<AudioSource>();
         ballCounter = 0;
+        resetFailsNum();
         // activate some objects im hierarchy 
         madf3.SetActive(true);
+        canon.GetComponent<Animator>().speed = 0.5f; 
         scoresMenu.SetActive(true);
         engine.SetActive(true);
         basket.SetActive(true);
@@ -32,45 +76,68 @@ public class GameController : MonoBehaviour
         engine.GetComponent<ScoresManager>().startGame();
         // create a star in a random point 
         createNewStar();
-        // create the balls inside canon 
-        for (int i = 0; i < maxNumberOfBalls; i++)
-        {
-            GameObject instance = Instantiate(ball, ballParents[i]);
-            instance.GetComponent<Rigidbody2D>().isKinematic = true;
-            instance_balls[i] = instance;
-        }
 
-        engine.GetComponent<AdManager>().RequestBanner();
-        engine.GetComponent<AdManager>().RequestFullScreenAd();
+        // fill the canon 
+        fillCanon();
+
+        //engine.GetComponent<AdManager>().RequestBanner();
+        //engine.GetComponent<AdManager>().RequestFullScreenAd();
 
     }
 
+    public void increaseCanonSpeed()
+    {
+        if(canon.GetComponent<Animator>().speed<2.4)
+            canon.GetComponent<Animator>().speed += 0.05f;
+    }
+
+    public void increaseFailsNum()
+    {
+        this.failsNum += 1;
+    }
+
+    public void resetFailsNum()
+    {
+        this.failsNum = 0;
+    }
 
 
     // Update is called once per frame
     void Update()
     {
-        if (ballCounter < maxNumberOfBalls)
+        
+        if (toutchFlag)
         {
-            if (toutchFlag)
-            {
+
+            if (failsNum != 3)
+            { 
                 // turn on  Canon animation 
                 GameObject.FindGameObjectWithTag("Canon").GetComponent<Animator>().enabled = true;
-                if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
+            {
+                project(ballCounter);
+                ballCounter++;
+
+                if(ballCounter==3)
                 {
-                    project(ballCounter);
-                    ballCounter++;
-                    toutchFlag = false;
+                    // reinitialize canon's ball 
+                    StartCoroutine("delayRefileCanon");
+                    ballCounter = 0; 
                 }
-            }
+
+                toutchFlag = false;
+            }}
 
         }
-        else 
+
+        if (failsNum == 3)
         {
-            if (toutchFlag)
+            if(toutchFlag)
             {
+                Debug.Log("*********End Called");
                 endGame();
             }
+              
         }
     }
 
@@ -90,10 +157,17 @@ public class GameController : MonoBehaviour
     //function to move all balls one step toward the muzzle of canon
     private void moveOneStep(int shiftValue)
     {
-        // number of iteration  is same as ball numbers 
-        for (int i=ballCounter; i<maxNumberOfBalls; i++)
+        try {
+
+            // number of iteration  is same as ball numbers 
+            for (int i = ballCounter; i < 3; i++)
+            {
+                instance_balls[i].transform.position = ballParents[i - shiftValue].position;
+            }
+        }
+        catch(System.Exception e)
         {
-            instance_balls[i].transform.position = ballParents[i-shiftValue].position;
+
         }
     }
     public void moveBallsToMuzzle()
@@ -111,22 +185,44 @@ public class GameController : MonoBehaviour
     // function to end the game 
     private void endGame()
     {
+       
+        try
+        {
+            instAdManager.ShowFullScreenAd();
+        }
+        catch(System.Exception e)
+        {
+            text.text += ("----"+e);
+        }
+        
+
+        // destroy last star if not and last balls
+        var star = GameObject.FindGameObjectWithTag("Star");
+        Destroy(star);
+        var balls = GameObject.FindGameObjectsWithTag("Ball");
+        foreach (var ball in balls)
+        {
+            Destroy(ball);
+        }
         // deactivate objects a gain
         madf3.SetActive(false);
         scoresMenu.SetActive(false);
+        optMainMenu.SetActive(true);
+        bottomMenu.transform.SetParent(optMainMenu.transform);
+        bottomMenu.SetActive(true);
         engine.SetActive(false);
         basket.SetActive(false);
         endGamePanel.SetActive(true);
-        // destroy last star if not 
-        var star = GameObject.FindGameObjectWithTag("Star");
-        Destroy(star);
+       
         ballCounter = 0;
+        this.failsNum = 0;
         // update stored value if current is better
         var scoresManager = engine.GetComponent<ScoresManager>();
+        // update if current score is better than stored  
         if (scoresManager.getPoints() > scoresManager.getBestScore())
             scoresManager.update_BestScore(scoresManager.getPoints());
 
-        engine.GetComponent<AdManager>().ShowFullScreenAd();
-        this.gameObject.SetActive(false);
+         //engine.GetComponent<AdManager>().ShowFullScreenAd();
+         this.gameObject.SetActive(false);
     }
 }
