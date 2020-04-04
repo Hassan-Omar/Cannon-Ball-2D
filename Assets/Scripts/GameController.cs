@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /*
@@ -61,6 +62,7 @@ public class GameController : MonoBehaviour
         bottomMenu.transform.SetParent(mainmenu.transform);
         bottomMenu.SetActive(false);
         optMainMenu.SetActive(false);
+        Star.succssiveTouched = 0;
         refile = this.GetComponent<AudioSource>();
         ballCounter = 0;
         resetFailsNum();
@@ -85,8 +87,9 @@ public class GameController : MonoBehaviour
 
     public void increaseCanonSpeed()
     {
+        // afetr 21 enter will be 2.39
         if(canon.GetComponent<Animator>().speed<2.4)
-            canon.GetComponent<Animator>().speed += 0.05f;
+            canon.GetComponent<Animator>().speed += 0.09f;
     }
 
     public void increaseFailsNum()
@@ -106,7 +109,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         if (toutchFlag)
         {
 
@@ -198,8 +201,13 @@ public class GameController : MonoBehaviour
         
 
         // destroy last star if not and last balls
-        var star = GameObject.FindGameObjectWithTag("Star");
-        Destroy(star);
+        var stars = GameObject.FindGameObjectsWithTag("Star");
+        foreach(var star in stars)
+        {
+            Destroy(star);
+        }
+
+        GameObject.Find("Double Text").GetComponent<Text>().text = "";
         var balls = GameObject.FindGameObjectsWithTag("Ball");
         foreach (var ball in balls)
         {
@@ -226,4 +234,11 @@ public class GameController : MonoBehaviour
          //engine.GetComponent<AdManager>().ShowFullScreenAd();
          this.gameObject.SetActive(false);
     }
+
+
+    public void loadHighScores()
+    {
+        SceneManager.LoadScene(1);
+    }
+
 }

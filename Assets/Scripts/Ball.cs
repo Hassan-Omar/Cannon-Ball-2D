@@ -1,5 +1,6 @@
-﻿using System.Collections; 
+﻿using System.Collections;
 using UnityEngine;
+
 /*
  * This Class Written by H.Omar 
  * 
@@ -15,10 +16,16 @@ public class Ball : MonoBehaviour
     private bool isToutchingBasket = false;
     // reference on game controller 
     private GameController gameController;
+    // to solve multi increase problem 
+    private bool istouchedWithGoal = false;
+
     private void Start()
     {
         scoresManager = GameObject.FindGameObjectWithTag("Engine").GetComponent<ScoresManager>();
         gameController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameController>();
+        // disable line renderer 
+        GetComponent<TrailRenderer>().widthMultiplier = 0;
+       
     }
 
 
@@ -28,8 +35,24 @@ public class Ball : MonoBehaviour
     {
         if (colider.tag == "Basket")
         {
-            //Increment Player Score by 6 
-            scoresManager.setPoints(6 + scoresManager.getPoints());
+            // check if this is the first touch 
+            if(!this.istouchedWithGoal)
+            {
+
+                if (Star.succssiveTouched == 0)
+                {
+                    //Increment Player Score by 3 
+                    scoresManager.setPoints(3 + scoresManager.getPoints());
+                }
+                else
+                {
+                    // Increment Player Score by 3 
+                    scoresManager.setPoints(3 * (2*Star.succssiveTouched) + scoresManager.getPoints());
+                }
+            }
+            istouchedWithGoal = true; 
+
+
             // vibrate the basket 
             colider.GetComponent<Animator>().enabled = true;
             StartCoroutine("turnOfBasketAnimator");
@@ -43,6 +66,7 @@ public class Ball : MonoBehaviour
 
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // when we colid to floor we should do
@@ -50,6 +74,7 @@ public class Ball : MonoBehaviour
         // 2- check if the ball hit the basket 
         if (collision.collider.tag == "Floor")
         {
+            Star.succssiveTouched = 0;
             GameController.toutchFlag = true;
 
             gameController.moveBallsToMuzzle();
@@ -57,6 +82,8 @@ public class Ball : MonoBehaviour
             {
                 gameController.increaseFailsNum();
             }
+            // restet succssiveTouched
+            
             StartCoroutine("delayDestroy");
         }
         else if (collision.collider.tag == "Basket")

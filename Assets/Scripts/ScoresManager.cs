@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using UnityEngine.UI;
 using UnityEngine;
+using System.Collections;
 
 /*
  * This Class Written by H.Omar 
@@ -11,13 +12,28 @@ using UnityEngine;
 public class ScoresManager : MonoBehaviour
 {
     // Resfernce of UI Text to Update when the Attributes changed 
-    public Text pointsText,starsText,bsetScoreText;
+    public Text pointsText, starsText, bsetScoreText;
+    public GameObject basket;
     // private Attributes
-    private int points;
+    public static int points;
     private int stars;
     private int bestScore;
+    private bool moveFlag = false;
+    private float moveSpeed = 0.5f;
+    private int  direction = 1;
+    private void Update()
+    {
+        Debug.Log("****** " +moveFlag+ "********"+moveSpeed+"-----" + new Vector3(0, 1, 0) * moveSpeed * direction);
+        if (basket.transform.position.y > 400f)
+            direction = -1;
+        if (basket.transform.position.y < 260f)
+            direction = 1;
 
-
+        if (moveFlag)
+        {
+            basket.transform.position += new Vector3(0,1,0)*Time.deltaTime * moveSpeed *direction;
+        }
+    }
     public void startGame()
     {
         // initilize 
@@ -46,13 +62,24 @@ public class ScoresManager : MonoBehaviour
     //__________________ Setter & Getter for points Property __________________\\
     public void setPoints(int value)
     {
-        this.points = value;
+        points = value;
         // update UI Text value
         pointsText.text = value.ToString();
+
+        // move network if the speed >100 
+        if(value>50 && value<110)
+        {
+            moveSpeed = (value - 50);
+            moveFlag = true;
+        }
+        else
+        {
+            StartCoroutine("moveBasketNet");
+        }
     }
     public int getPoints()
     {
-        return this.points;
+        return points;
     }
     //___________________ Setter & Getter for stars Property ___________________\\ 
     public void setStars(int value)
@@ -78,6 +105,11 @@ public class ScoresManager : MonoBehaviour
     }
 
 
+    IEnumerator moveBasketNet()
+    {
+        yield return new WaitForSeconds(2f);
+        this.basket.transform.position = new Vector3(this.basket.transform.position.x, Random.Range(281f, 440f), this.basket.transform.position.z);
+    }
 
 
 }
