@@ -18,22 +18,8 @@ public class ScoresManager : MonoBehaviour
     public static int points;
     private int stars;
     private int bestScore;
-    private bool moveFlag = false;
-    private float moveSpeed = 0.5f;
-    private int  direction = 1;
-    private void Update()
-    {
-        Debug.Log("****** " +moveFlag+ "********"+moveSpeed+"-----" + new Vector3(0, 1, 0) * moveSpeed * direction);
-        if (basket.transform.position.y > 400f)
-            direction = -1;
-        if (basket.transform.position.y < 260f)
-            direction = 1;
+    private Text doubleText;
 
-        if (moveFlag)
-        {
-            basket.transform.position += new Vector3(0,1,0)*Time.deltaTime * moveSpeed *direction;
-        }
-    }
     public void startGame()
     {
         // initilize 
@@ -65,17 +51,7 @@ public class ScoresManager : MonoBehaviour
         points = value;
         // update UI Text value
         pointsText.text = value.ToString();
-
-        // move network if the speed >100 
-        if(value>50 && value<110)
-        {
-            moveSpeed = (value - 50);
-            moveFlag = true;
-        }
-        else
-        {
-            StartCoroutine("moveBasketNet");
-        }
+       
     }
     public int getPoints()
     {
@@ -105,11 +81,39 @@ public class ScoresManager : MonoBehaviour
     }
 
 
-    IEnumerator moveBasketNet()
+    public void viewDoubleTXT()
     {
-        yield return new WaitForSeconds(2f);
-        this.basket.transform.position = new Vector3(this.basket.transform.position.x, Random.Range(281f, 440f), this.basket.transform.position.z);
+
+        // view text 
+        doubleText = GameObject.Find("Double Text").GetComponent<Text>();
+        this.doubleText.gameObject.SetActive(true);
+        doubleText.text = "X" + (2 *Star.succssiveTouched);
+        StartCoroutine("resizeDoubleTxt");
     }
 
+
+    IEnumerator resizeDoubleTxt()
+    {
+        yield return new WaitForSeconds(0.05f);
+        this.doubleText.fontSize = 125;
+        yield return new WaitForSeconds(0.05f);
+        this.doubleText.fontSize = 110;
+        yield return new WaitForSeconds(0.05f);
+        this.doubleText.fontSize = 100;
+        yield return new WaitForSeconds(0.05f);
+        this.doubleText.fontSize = 90;
+        yield return new WaitForSeconds(0.05f);
+        this.doubleText.fontSize = 80;
+        yield return new WaitForSeconds(0.05f);
+        this.doubleText.fontSize = 70;
+        yield return new WaitForSeconds(0.05f);
+        this.doubleText.fontSize = 60;
+        yield return new WaitForSeconds(0.05f);
+        this.doubleText.fontSize = 50;
+        yield return new WaitForSeconds(0.05f);
+        this.doubleText.text = "";
+
+
+    }
 
 }

@@ -72,6 +72,10 @@ public class GameController : MonoBehaviour
         scoresMenu.SetActive(true);
         engine.SetActive(true);
         basket.SetActive(true);
+        var basketManager = basket.GetComponent<BasketManager>();
+        basketManager.moveFlag = false;
+        basketManager.moveSpeed = 0.5f;
+        basketManager.direction = 1;
         // clear the scores on score menue ;
         engine.GetComponent<ScoresManager>().startGame();
         // create a star in a random point 
@@ -182,10 +186,20 @@ public class GameController : MonoBehaviour
     // function give a random point to instantiate a star 
     public void createNewStar()
     {
-        float fPoint = Random.Range(0, starPoints.Length - 1);       
-        Instantiate(star, starPoints[(int)fPoint], Quaternion.identity);
+        // this check to prevent multi stars
+        StartCoroutine("createNewStarCoroutine");
     }
 
+    IEnumerator createNewStarCoroutine()
+    {
+        yield return new WaitForSeconds(0.2f);
+        Debug.Log("--------" + GameObject.FindGameObjectWithTag("Star"));
+        if (GameObject.FindGameObjectWithTag("Star") == null)
+        {
+            float fPoint = Random.Range(0, starPoints.Length - 1);
+            Instantiate(star, starPoints[(int)fPoint], Quaternion.identity);
+        }
+    }
     // function to end the game 
     private void endGame()
     {

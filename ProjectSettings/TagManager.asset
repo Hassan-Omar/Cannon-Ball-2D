@@ -12,7 +12,7 @@ TagManager:
   - Canon
   - StarTxt
   - Ball
-  - DoubleTXT
+  - Slider
   layers:
   - Default
   - TransparentFX

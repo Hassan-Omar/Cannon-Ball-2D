@@ -55,7 +55,7 @@ public class Ball : MonoBehaviour
 
             // vibrate the basket 
             colider.GetComponent<Animator>().enabled = true;
-            StartCoroutine("turnOfBasketAnimator");
+            StartCoroutine("turnOffBasketAnimator");
             //colider.transform.position.y -= Random.Range(0, 24f);
             this.isToutchingBasket = true;
 
@@ -73,24 +73,36 @@ public class Ball : MonoBehaviour
         // 1- move balls one step 
         // 2- check if the ball hit the basket 
         if (collision.collider.tag == "Floor")
-        {
+        {  
+            // restet succssiveTouched
             Star.succssiveTouched = 0;
-            GameController.toutchFlag = true;
 
             gameController.moveBallsToMuzzle();
             if(!this.isToutchingBasket)
             {
                 gameController.increaseFailsNum();
             }
-            // restet succssiveTouched
-            
+
+            // move network if the speed >100 
+            var value = scoresManager.getPoints();
+            var basketManager = GameObject.Find("Basket Net").GetComponent<BasketManager>();
+            if (value > 50 && value < 160)
+            {
+                basketManager.moveSpeed = (value - 50);
+                basketManager.moveFlag = true;
+            }
+            else
+            {
+                basketManager.moveBasketNet();
+            }
+
             StartCoroutine("delayDestroy");
         }
         else if (collision.collider.tag == "Basket")
         {
             // vibrate the basket 
             collision.gameObject.GetComponent<Animator>().enabled = true;
-            StartCoroutine("turnOfBasketAnimator");
+            StartCoroutine("turnOffBasketAnimator");
         }
 
     }
@@ -99,6 +111,9 @@ public class Ball : MonoBehaviour
     IEnumerator delayDestroy()
     {
         yield return new WaitForSeconds(0.6f);
+        // turn on canon animation 
+        GameController.toutchFlag = true;
+
         Destroy(this.gameObject);
     }
 
@@ -112,7 +127,7 @@ public class Ball : MonoBehaviour
         return this.isMoving;
     }
 
-    IEnumerator turnOfBasketAnimator()
+    IEnumerator turnOffBasketAnimator()
     {
         yield return new WaitForSeconds(0.5f);
         if(GameObject.FindGameObjectWithTag("Basket")!=null)
