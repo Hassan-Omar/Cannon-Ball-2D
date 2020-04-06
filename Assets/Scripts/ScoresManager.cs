@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System.Collections;
 
+
 /*
  * This Class Written by H.Omar 
  * 
@@ -19,6 +20,15 @@ public class ScoresManager : MonoBehaviour
     private int stars;
     private int bestScore;
     private Text doubleText;
+
+
+    private void Start()
+    {
+        string path = "Assets/Resources/scores/firstime.txt";
+        //Write  text to the best.txt file
+        File.WriteAllText(path, "1");
+       
+    }
 
     public void startGame()
     {

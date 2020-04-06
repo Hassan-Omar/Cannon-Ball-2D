@@ -252,7 +252,7 @@ public class GameController : MonoBehaviour
 
     public void loadHighScores()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Submit");
     }
 
 }
