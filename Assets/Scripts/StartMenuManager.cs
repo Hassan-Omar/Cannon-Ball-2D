@@ -7,12 +7,11 @@ public class StartMenuManager : MonoBehaviour
 {
     private int firstTime; 
     private void Start()
-    {
-        // load bestScore value from Resourcesvar 
-        var bestScore_TXT = Resources.Load<TextAsset>("scores/firstime").ToString();
+    { 
         // cast to integer and assign the to  bestScore
-         firstTime = int.Parse(bestScore_TXT);
-        // load toturial if this is first time to play
+        firstTime = PlayerPrefs.GetInt("firstTime");
+        Debug.Log("firstTime" + firstTime);
+
     }
     // Start is called before the first frame update
     public void startBTN()

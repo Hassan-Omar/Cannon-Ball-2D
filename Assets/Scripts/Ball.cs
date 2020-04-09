@@ -86,14 +86,15 @@ public class Ball : MonoBehaviour
             // move network if the speed >100 
             var value = scoresManager.getPoints();
             var basketManager = GameObject.Find("Basket Net").GetComponent<BasketManager>();
-            if (value > 50 && value < 160)
+            if (value>30)
+            {
+                basketManager.moveBasketNet();
+
+            }
+            if (value > 100 && value < 200)
             {
                 basketManager.moveSpeed = (value - 50);
                 basketManager.moveFlag = true;
-            }
-            else
-            {
-                basketManager.moveBasketNet();
             }
 
             StartCoroutine("delayDestroy");

@@ -23,7 +23,7 @@ public class Highscores : MonoBehaviour
 
     public void backToMain()
     {
-        SceneManager.LoadSceneAsync(0);
+        SceneManager.LoadSceneAsync("CoreGame");
     }
 
 

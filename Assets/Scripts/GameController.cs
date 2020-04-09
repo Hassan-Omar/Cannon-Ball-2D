@@ -93,7 +93,7 @@ public class GameController : MonoBehaviour
     {
         // afetr 21 enter will be 2.39
         if(canon.GetComponent<Animator>().speed<2.4)
-            canon.GetComponent<Animator>().speed += 0.09f;
+            canon.GetComponent<Animator>().speed += 0.04f;
     }
 
     public void increaseFailsNum()
@@ -242,8 +242,12 @@ public class GameController : MonoBehaviour
         // update stored value if current is better
         var scoresManager = engine.GetComponent<ScoresManager>();
         // update if current score is better than stored  
+
         if (scoresManager.getPoints() > scoresManager.getBestScore())
+        {
             scoresManager.update_BestScore(scoresManager.getPoints());
+            Debug.Log("*********** 7sl *************");
+        }
 
          //engine.GetComponent<AdManager>().ShowFullScreenAd();
          this.gameObject.SetActive(false);

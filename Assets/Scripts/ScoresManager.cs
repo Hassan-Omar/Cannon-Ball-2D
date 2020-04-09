@@ -1,5 +1,4 @@
-﻿using System.IO;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 using UnityEngine;
 using System.Collections;
 
@@ -20,25 +19,15 @@ public class ScoresManager : MonoBehaviour
     private int stars;
     private int bestScore;
     private Text doubleText;
-
-
-    private void Start()
-    {
-        string path = "Assets/Resources/scores/firstime.txt";
-        //Write  text to the best.txt file
-        File.WriteAllText(path, "1");
-       
-    }
+     
 
     public void startGame()
     {
         // initilize 
         points = 0;
         stars = 0; 
-        // load bestScore value from Resources
-        var bestScore_TXT = Resources.Load<TextAsset>("scores/best").ToString();
-        // cast to integer and assign the to  bestScore
-        bestScore = int.Parse(bestScore_TXT);
+
+        bestScore =PlayerPrefs.GetInt("bestScore");
         // Initialize UI element 
         pointsText.text = "0";
         starsText.text = "0";
@@ -47,10 +36,10 @@ public class ScoresManager : MonoBehaviour
     
     // Function to update the Stored value in Asset 
     public void update_BestScore(int score)
-    {       
-        string path = "Assets/Resources/scores/best.txt";
-        //Write  text to the best.txt file
-        File.WriteAllText(path, score.ToString());
+    {
+        PlayerPrefs.SetInt("bestScore", score);
+        Debug.Log("best score will update with "+score);
+
     }
 
 
@@ -87,7 +76,7 @@ public class ScoresManager : MonoBehaviour
     }
     public int getBestScore()
     {
-        return this.bestScore;
+        return PlayerPrefs.GetInt("bestScore");
     }
 
 

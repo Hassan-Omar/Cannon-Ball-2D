@@ -23,8 +23,10 @@ public class TutorialManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetInt("firstTime",1);
+        Debug.Log("firstTime is writen");
         // fill the canon 
-        for(var i= 0; i < 3; i++)
+        for (var i= 0; i < 3; i++)
         {
             
             GameObject instance = Instantiate(ball, ballParents[i]);
