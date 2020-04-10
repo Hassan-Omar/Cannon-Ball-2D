@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ItemDataBase xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <list>
+    <ItemEntry>
+      <themeID>1</themeID>
+      <price>250</price>
+    </ItemEntry>
+    <ItemEntry>
+      <themeID>2</themeID>
+      <price>500</price>
+    </ItemEntry>
+  </list>
+</ItemDataBase>
