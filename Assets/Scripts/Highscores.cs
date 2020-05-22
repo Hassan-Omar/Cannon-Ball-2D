@@ -150,3 +150,18 @@ public struct Highscore
 
     
 }
+
+public class User
+{
+    public string email;
+    public string password;
+    public int coins;
+
+    public User()
+    {
+
+    }
+
+
+
+}

@@ -28,19 +28,13 @@ public class StartMenuManager : MonoBehaviour
     {
         SceneManager.LoadSceneAsync("Tutorial");
     }
+    public void openStore()
+    {
+        SceneManager.LoadSceneAsync("Store");
+    }
 
     public void exit()
     {
         Application.Quit();
-    }
-
-    public void ourWebSite()
-    {
-        Application.OpenURL("http://www.hassan.com");
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    } 
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,7 +16,7 @@ public class GameController : MonoBehaviour
     public int forceValue;
     public static bool toutchFlag = true;
     // Refernce on game objs that will be created @ Run Time 
-    public GameObject star, madf3,canon, ball, engine,admanger, scoresMenu, bottomMenu,endGamePanel, basket , mainmenu,optMainMenu;
+    public GameObject star, madf3,canon, ball, wheel, background, engine,admanger, scoresMenu, bottomMenu,endGamePanel, basket , mainmenu,optMainMenu;
     // the points whitch is availabe to instantiate a star
     public Vector2[] starPoints;
     public Transform[] ballParents; 
@@ -58,6 +60,8 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     public void StartGame()
     {
+        selectActiveScene();
+
         instAdManager = admanger.GetComponent<AdManager>(); 
         bottomMenu.transform.SetParent(mainmenu.transform);
         bottomMenu.SetActive(false);
@@ -246,7 +250,6 @@ public class GameController : MonoBehaviour
         if (scoresManager.getPoints() > scoresManager.getBestScore())
         {
             scoresManager.update_BestScore(scoresManager.getPoints());
-            Debug.Log("*********** 7sl *************");
         }
 
          //engine.GetComponent<AdManager>().ShowFullScreenAd();
@@ -257,6 +260,53 @@ public class GameController : MonoBehaviour
     public void loadHighScores()
     {
         SceneManager.LoadScene("Submit");
+    }
+
+
+    private void selectActiveScene()
+    {
+        //var currentActiveTheme =  PlayerPrefs.GetInt("Active_Theme");
+        var currentActiveTheme = 1;
+        if(currentActiveTheme != 0)
+        {
+            //ball.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/ball"); 
+            //canon.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/cannon"); 
+            // wheel.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/wheel"); 
+            //background.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/background");
+
+            ball.GetComponent<SpriteRenderer>().sprite =
+            ConvertTextureToSprite(LoadTexture(Application.dataPath + "/themes/1/ball.png"));
+          }
+    }
+
+
+
+    private Sprite ConvertTextureToSprite(Texture2D texture, float PixelsPerUnit = 100.0f, SpriteMeshType spriteType = SpriteMeshType.Tight)
+    {
+        // Converts a Texture2D to a sprite, assign this texture to a new sprite and return its reference
+
+        Sprite NewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f,0.5f), PixelsPerUnit, 0, spriteType);
+
+        return NewSprite;
+    }
+
+    private Texture2D LoadTexture(string FilePath)
+    {
+
+        // Load a PNG or JPG file from disk to a Texture2D
+        // Returns null if load fails
+
+        Texture2D Tex2D;
+        byte[] FileData;
+
+        if (File.Exists(FilePath))
+        {
+            FileData = File.ReadAllBytes(FilePath);
+            Tex2D = new Texture2D(2, 2);           // Create new "empty" texture
+            if (Tex2D.LoadImage(FileData))           // Load the imagedata into the texture (size is set automatically)
+                return Tex2D;                 // If data = readable -> return texture
+        }
+        return null;                     // Return null if load failed
     }
 
 }

@@ -148,7 +148,7 @@ public class AdManager : MonoBehaviour
 
     public void HandleRewardedAdClosed(object sender, EventArgs args)
     {
-        
+        PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins")+100);
     }
  
 
