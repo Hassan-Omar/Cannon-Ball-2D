@@ -6,10 +6,12 @@ using UnityEngine.SceneManagement;
 public class StoreHandler : MonoBehaviour
 {
     [SerializeField] private GameObject[] allItemsComponent;
-    private int coins; 
+    [SerializeField] private Text text;
+    [SerializeField] private GameObject panel;
+    public static int coins; 
     private void Start()
     {
-        PlayerPrefs.SetString("AvailableItems", "1-b");
+        
         var avalabileComps = getAllAailableItems(); 
         // check on The Items that is already Have 
         for(int i=0; i<5; i++)
@@ -26,6 +28,10 @@ public class StoreHandler : MonoBehaviour
             }
         }
     }
+    private void LateUpdate()
+    {
+        text.text = "Coins\r\n" + coins; 
+    }
     public void loadGame()
     {
         SceneManager.LoadSceneAsync("CoreGame");
@@ -39,7 +45,6 @@ public class StoreHandler : MonoBehaviour
          * Player Pref for Items 
          *      1 -> 500 
          *      2 -> 1000
-         * 
          */
 
         // check if coins > item's price 
@@ -52,6 +57,10 @@ public class StoreHandler : MonoBehaviour
                 Debug.Log("Item " + ItemId + "added to List");
                 PlayerPrefs.SetString("AvailableItems", availabileItems + "-" + ItemId);
             }
+        }
+        else
+        {
+            loadNOTEngphCoins();
         }
     }
 
@@ -83,4 +92,10 @@ public class StoreHandler : MonoBehaviour
     {
         return PlayerPrefs.GetString("AvailableItems"); 
     }
+
+    public void loadNOTEngphCoins()
+    {
+        panel.SetActive(true);
+    }
+   
 }

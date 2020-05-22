@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.IO;
-using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -265,18 +264,17 @@ public class GameController : MonoBehaviour
 
     private void selectActiveScene()
     {
-        //var currentActiveTheme =  PlayerPrefs.GetInt("Active_Theme");
-        var currentActiveTheme = 1;
-        if(currentActiveTheme != 0)
-        {
-            //ball.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/ball"); 
-            //canon.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/cannon"); 
-            // wheel.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/wheel"); 
-            //background.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/background");
+        var currentActiveTheme =  PlayerPrefs.GetString("ActiveTheme");
 
-            ball.GetComponent<SpriteRenderer>().sprite =
-            ConvertTextureToSprite(LoadTexture(Application.dataPath + "/themes/1/ball.png"));
-          }
+        if(currentActiveTheme != null)
+        {
+            ball.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/ball"); 
+            canon.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/cannon"); 
+            wheel.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/wheel"); 
+            background.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/background");
+
+            ball.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/ball");
+        }
     }
 
 

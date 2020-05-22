@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using System;
 using GoogleMobileAds.Api;
 
@@ -148,7 +145,8 @@ public class AdManager : MonoBehaviour
 
     public void HandleRewardedAdClosed(object sender, EventArgs args)
     {
-        PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins")+100);
+        PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins")+10);
+        StoreHandler.coins += 10;
     }
  
 
