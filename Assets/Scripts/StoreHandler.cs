@@ -9,6 +9,7 @@ public class StoreHandler : MonoBehaviour
     private int coins; 
     private void Start()
     {
+        PlayerPrefs.SetString("AvailableItems", "1-b");
         var avalabileComps = getAllAailableItems(); 
         // check on The Items that is already Have 
         for(int i=0; i<5; i++)
@@ -17,7 +18,7 @@ public class StoreHandler : MonoBehaviour
             {
                 // this Item Is Available Now 
                 // Remove Price , Description 
-                var compInChilderen = allItemsComponent[i].GetComponentsInChildren<TextMeshPro>();
+                var compInChilderen = allItemsComponent[i].GetComponentsInChildren<TextMeshProUGUI>();
                 compInChilderen[0].gameObject.SetActive(false);
                 compInChilderen[1].gameObject.SetActive(false);
                 // Remove Buy Btn 
@@ -30,7 +31,7 @@ public class StoreHandler : MonoBehaviour
         SceneManager.LoadSceneAsync("CoreGame");
     }
 
-    public void payItem(int ItemId)
+    public void payItem(string ItemId)
     {
         //EchItem -> ID , Price  So WE can Store In Player Pref as Key -> Id , VAl -> Price 
        
@@ -42,7 +43,7 @@ public class StoreHandler : MonoBehaviour
          */
 
         // check if coins > item's price 
-        if(coins >PlayerPrefs.GetInt(ItemId.ToString()))
+        if(coins >PlayerPrefs.GetInt(ItemId))
         {
             var availabileItems = getAllAailableItems();
             // check if Item Is not exist before 
@@ -58,17 +59,20 @@ public class StoreHandler : MonoBehaviour
     /// Store Active Theme To Load when Play 
     /// </summary>
     /// <param name="themeId">ID For Theme We Need To Set Active </param>
-    public void selectActiveTheme(int themeId)
+    public void selectActiveTheme(string themeId)
     {
-        PlayerPrefs.SetInt("ActiveTheme", themeId);
+        PlayerPrefs.SetString("ActiveTheme", themeId);
+        Debug.Log("Theme " + themeId + "  Is Active");
     }
     /// <summary>
     /// Same Previous But for Tools
     /// </summary>
     /// <param name="toolId"></param>
-    public void selectActiveTool(int toolId)
+    public void selectActiveTool(string toolId)
     {
-        PlayerPrefs.SetInt("ActiveTheme", toolId);
+        PlayerPrefs.SetString("ActiveTheme", toolId);
+        Debug.Log("TOL " + toolId + "  Is Active");
+
     }
 
     /// <summary>
