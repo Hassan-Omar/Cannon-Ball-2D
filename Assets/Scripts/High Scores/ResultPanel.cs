@@ -1,18 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
+/// <summary>
+/// This Class Created by H.Omar to Init Result Panel 
+/// </summary>
 public class ResultPanel : MonoBehaviour
-{
+{   
+    [SerializeField] private RestApiManager restAPI; 
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        restAPI.getTopScores(10);
     }
 }
