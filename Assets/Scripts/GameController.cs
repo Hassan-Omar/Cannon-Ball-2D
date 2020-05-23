@@ -15,7 +15,8 @@ public class GameController : MonoBehaviour
     public int forceValue;
     public static bool toutchFlag = true;
     // Refernce on game objs that will be created @ Run Time 
-    public GameObject star, madf3,canon, ball, wheel, background, engine,admanger, scoresMenu, bottomMenu,endGamePanel, basket , mainmenu,optMainMenu;
+    public GameObject star, madf3,canon, ball, wheel, background, engine,admanger, scoresMenu, bottomMenu,endGamePanel, basket , mainmenu,optMainMenu,
+        toolParents;
     // the points whitch is availabe to instantiate a star
     public Vector2[] starPoints;
     public Transform[] ballParents; 
@@ -29,7 +30,7 @@ public class GameController : MonoBehaviour
     private AudioSource refile; 
 
     private AdManager instAdManager;
-
+    [SerializeField] private GameObject[] tools;
     // fill canon with 3 balls 
     private void fillCanon()
     {
@@ -75,6 +76,7 @@ public class GameController : MonoBehaviour
         scoresMenu.SetActive(true);
         engine.SetActive(true);
         basket.SetActive(true);
+        toolParents.SetActive(true);
         var basketManager = basket.GetComponent<BasketManager>();
         basketManager.moveFlag = false;
         basketManager.moveSpeed = 0.5f;
@@ -145,7 +147,6 @@ public class GameController : MonoBehaviour
         {
             if(toutchFlag)
             {
-                Debug.Log("*********End Called");
                 endGame();
             }
               
@@ -238,6 +239,7 @@ public class GameController : MonoBehaviour
         bottomMenu.SetActive(true);
         engine.SetActive(false);
         basket.SetActive(false);
+        toolParents.SetActive(false);
         endGamePanel.SetActive(true);
        
         ballCounter = 0;
@@ -266,45 +268,30 @@ public class GameController : MonoBehaviour
     {
         var currentActiveTheme =  PlayerPrefs.GetString("ActiveTheme");
 
-        if(currentActiveTheme != null)
+        // setActive Theme 
+        if (currentActiveTheme != "-1")
         {
+            Debug.Log(Resources.Load<Sprite>("themes/" + currentActiveTheme + "/ball"));
             ball.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/ball"); 
             canon.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/cannon"); 
             wheel.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/wheel"); 
             background.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/background");
-
             ball.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/ball");
         }
-    }
-
-
-
-    private Sprite ConvertTextureToSprite(Texture2D texture, float PixelsPerUnit = 100.0f, SpriteMeshType spriteType = SpriteMeshType.Tight)
-    {
-        // Converts a Texture2D to a sprite, assign this texture to a new sprite and return its reference
-
-        Sprite NewSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f,0.5f), PixelsPerUnit, 0, spriteType);
-
-        return NewSprite;
-    }
-
-    private Texture2D LoadTexture(string FilePath)
-    {
-
-        // Load a PNG or JPG file from disk to a Texture2D
-        // Returns null if load fails
-
-        Texture2D Tex2D;
-        byte[] FileData;
-
-        if (File.Exists(FilePath))
+        // Set Active Tool 
+        var activeTool = PlayerPrefs.GetString("ActiveTool");
+        if(activeTool == "a")
         {
-            FileData = File.ReadAllBytes(FilePath);
-            Tex2D = new Texture2D(2, 2);           // Create new "empty" texture
-            if (Tex2D.LoadImage(FileData))           // Load the imagedata into the texture (size is set automatically)
-                return Tex2D;                 // If data = readable -> return texture
+            tools[0].SetActive(true);
         }
-        return null;                     // Return null if load failed
+        if (activeTool == "b")
+        {
+            tools[1].SetActive(true);
+        }
+        if (activeTool == "c")
+        {
+            tools[2].SetActive(true);
+        }
     }
 
 }

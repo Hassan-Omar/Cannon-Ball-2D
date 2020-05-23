@@ -1,35 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public class SmartTool : MonoBehaviour
 {
-    private bool moveFlag;
-    private int direction = -1;
+    [SerializeField] private Animator animator;
+    [SerializeField] private AnimationClip clip;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        moveFlag = true;
-        StartCoroutine("InvertDirection");
+        animator.SetBool("Hit", true);
+        StartCoroutine("InverStatus");
     }
 
-    private void FixedUpdate()
+    IEnumerator InverStatus()
     {
-        if (moveFlag)
-        {
-            moveDelta(0.03f, direction);
-        }
+        yield return new WaitForSeconds(clip.length);
+        animator.SetBool("Hit", false);
+        animator.SetBool("Hit2", true);
     }
 
-    private void moveDelta(float delta, float direction)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        transform.Rotate(new Vector3(0,delta,0)*direction)
-    }
-
-    IEnumerator InvertDirection()
-    {
-        yield return new WaitForSeconds(2);
-        direction = 1;
-        yield return new WaitForSeconds(2);
-        moveFlag = false;
+        animator.SetBool("Hit2", false);
     }
 }

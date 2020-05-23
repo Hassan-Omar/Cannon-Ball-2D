@@ -5,7 +5,7 @@ using GoogleMobileAds.Api;
 public class AdManager : MonoBehaviour
 { 
     public bool flag = false;
-
+    [SerializeField] private StoreHandler handler;
     // this will be instance of my 
     public static AdManager instance;
 
@@ -146,7 +146,7 @@ public class AdManager : MonoBehaviour
     public void HandleRewardedAdClosed(object sender, EventArgs args)
     {
         PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins")+10);
-        StoreHandler.coins += 10;
+        handler.updateTxt(PlayerPrefs.GetInt("Coins"));
     }
  
 

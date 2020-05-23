@@ -6,17 +6,36 @@ public class VerticalTool : MonoBehaviour
 {
     private bool moveFlag;
     private int direction = -1;
+    [SerializeField] private float minVal, maxVal;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        moveFlag = true;
-        StartCoroutine("InvertDirection");
+        if (collision.gameObject.tag =="Ball")
+        {
+            moveFlag = true;
+            direction = -1;
+            StartCoroutine("InvertDirection");
+        }
     }
 
     private void FixedUpdate()
     {
         if (moveFlag)
         {
-            moveDelta(0.03f, direction);
+            if (direction == -1)
+            {
+                if (transform.localPosition.y > minVal)
+                {
+                    moveDelta(200, direction);
+                }
+            }
+            else if (direction == 1)
+            {
+                if (transform.localPosition.y < maxVal)
+                {
+                    moveDelta(200, direction);
+                }
+
+            }
         }
     }
 
@@ -27,9 +46,7 @@ public class VerticalTool : MonoBehaviour
 
     IEnumerator InvertDirection()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.3f);
         direction = 1;
-        yield return new WaitForSeconds(2);
-        moveFlag = false;
     }
 }

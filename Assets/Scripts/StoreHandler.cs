@@ -6,12 +6,14 @@ using UnityEngine.SceneManagement;
 public class StoreHandler : MonoBehaviour
 {
     [SerializeField] private GameObject[] allItemsComponent;
+    [SerializeField] private GameObject[] selectionImage;
     [SerializeField] private Text text;
     [SerializeField] private GameObject panel;
-    public static int coins; 
+    public int coins; 
     private void Start()
     {
-        
+        coins = PlayerPrefs.GetInt("Coins");
+        updateTxt(coins);
         var avalabileComps = getAllAailableItems(); 
         // check on The Items that is already Have 
         for(int i=0; i<5; i++)
@@ -28,8 +30,9 @@ public class StoreHandler : MonoBehaviour
             }
         }
     }
-    private void LateUpdate()
+    public void updateTxt(int val)
     {
+        coins = val;
         text.text = "Coins\r\n" + coins; 
     }
     public void loadGame()
@@ -48,15 +51,21 @@ public class StoreHandler : MonoBehaviour
          */
 
         // check if coins > item's price 
-        if(coins >PlayerPrefs.GetInt(ItemId))
+        if(coins > PlayerPrefs.GetInt(ItemId))
         {
             var availabileItems = getAllAailableItems();
             // check if Item Is not exist before 
             if (!availabileItems.Contains(ItemId.ToString()))
             {
-                Debug.Log("Item " + ItemId + "added to List");
                 PlayerPrefs.SetString("AvailableItems", availabileItems + "-" + ItemId);
+                // Update  Coins 
+                coins -= PlayerPrefs.GetInt(ItemId);
+                PlayerPrefs.SetInt("Coins", coins);
+                updateTxt(coins);
+                Debug.Log("Item " + ItemId + "added to List "+coins +"  " + PlayerPrefs.GetInt(ItemId));
+
             }
+
         }
         else
         {
@@ -70,8 +79,10 @@ public class StoreHandler : MonoBehaviour
     /// <param name="themeId">ID For Theme We Need To Set Active </param>
     public void selectActiveTheme(string themeId)
     {
-        PlayerPrefs.SetString("ActiveTheme", themeId);
-        Debug.Log("Theme " + themeId + "  Is Active");
+        if (getAllAailableItems().Contains(themeId))
+        {
+            PlayerPrefs.SetString("ActiveTheme", themeId);
+        }
     }
     /// <summary>
     /// Same Previous But for Tools
@@ -79,9 +90,10 @@ public class StoreHandler : MonoBehaviour
     /// <param name="toolId"></param>
     public void selectActiveTool(string toolId)
     {
-        PlayerPrefs.SetString("ActiveTheme", toolId);
-        Debug.Log("TOL " + toolId + "  Is Active");
-
+        if(getAllAailableItems().Contains(toolId))
+        {
+            PlayerPrefs.SetString("ActiveTool", toolId);
+        }
     }
 
     /// <summary>
@@ -97,5 +109,56 @@ public class StoreHandler : MonoBehaviour
     {
         panel.SetActive(true);
     }
-   
+
+    public void updateAfterSelect(string id)
+    {
+        if (getAllAailableItems().Contains(id))
+        { 
+            for (int i=0; i< 2; i++)
+            {
+                selectionImage[i].SetActive(false);
+            }
+
+            if(id == "1")
+            {
+                selectionImage[0].SetActive(true);
+            }
+            else if (id == "2")
+            {
+                selectionImage[1].SetActive(true);
+            }
+        }
+    }
+
+    public void updateAfterSelect_Tool(string id)
+    {
+        if (getAllAailableItems().Contains(id))
+        {
+            for (int i = 2; i < 5; i++)
+            {
+                selectionImage[i].SetActive(false);
+            }
+            if (id == "a")
+            {
+                selectionImage[2].SetActive(true);
+            }
+            else if (id == "b")
+            {
+                selectionImage[3].SetActive(true);
+            }
+            else if (id == "c")
+            {
+                selectionImage[4].SetActive(true);
+            }
+        }
+    }
+
+    public void updateAfterBuy(GameObject button)
+    {
+        // check if coins > item's price 
+        if (coins > PlayerPrefs.GetInt(button.transform.parent.name))
+        {
+            button.SetActive(false);
+        }
+    }
 }
