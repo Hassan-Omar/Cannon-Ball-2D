@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     public int forceValue;
     public static bool toutchFlag = true;
     // Refernce on game objs that will be created @ Run Time 
-    public GameObject star, madf3,canon, ball, wheel, background, engine,admanger, scoresMenu, bottomMenu,endGamePanel, basket , mainmenu,optMainMenu,
+    public GameObject star, madf3,canon, ball, wheel, background, engine,admanger, scoresMenu,endGamePanel, basket , mainmenu,optMainMenu,
         toolParents;
     // the points whitch is availabe to instantiate a star
     public Vector2[] starPoints;
@@ -62,8 +62,6 @@ public class GameController : MonoBehaviour
         selectActiveScene();
 
         instAdManager = admanger.GetComponent<AdManager>(); 
-        bottomMenu.transform.SetParent(mainmenu.transform);
-        bottomMenu.SetActive(false);
         optMainMenu.SetActive(false);
         Star.succssiveTouched = 0;
         refile = this.GetComponent<AudioSource>();
@@ -234,8 +232,6 @@ public class GameController : MonoBehaviour
         madf3.SetActive(false);
         scoresMenu.SetActive(false);
         optMainMenu.SetActive(true);
-        bottomMenu.transform.SetParent(optMainMenu.transform);
-        bottomMenu.SetActive(true);
         engine.SetActive(false);
         basket.SetActive(false);
         toolParents.SetActive(false);
@@ -270,12 +266,10 @@ public class GameController : MonoBehaviour
         // setActive Theme 
         if (currentActiveTheme != "-1")
         {
-            Debug.Log(Resources.Load<Sprite>("themes/" + currentActiveTheme + "/ball"));
             ball.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/ball"); 
             canon.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/cannon"); 
             wheel.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/wheel"); 
             background.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/background");
-            ball.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/ball");
         }
         // Set Active Tool 
         var activeTool = PlayerPrefs.GetString("ActiveTool");

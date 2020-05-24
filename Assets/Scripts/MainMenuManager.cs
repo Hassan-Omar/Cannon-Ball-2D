@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI; 
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 /*
  * This Class Written by H.Omar 
  * 
@@ -16,8 +16,8 @@ public class MainMenuManager : MonoBehaviour
     // Reference of Audio Button , Play-Puse Button
     [SerializeField] private Button audioButton ,play_Puse;
     public AudioSource backgroundSource;
-    // this function close the game 
-    
+    [SerializeField] private GameObject pausePanel;
+
     private void Start()
     {
         if(PlayerPrefs.GetInt("Sound")== 1)
@@ -51,6 +51,7 @@ public class MainMenuManager : MonoBehaviour
         if(Time.timeScale == 1)
         {
             play_Puse.GetComponent<Image>().sprite = play;
+            pausePanel.SetActive(true);
             backgroundSource.Pause(); 
             Time.timeScale = 0; 
         }
@@ -58,10 +59,19 @@ public class MainMenuManager : MonoBehaviour
         {
             play_Puse.GetComponent<Image>().sprite = pause;
             Time.timeScale = 1;
+            pausePanel.SetActive(false);
             backgroundSource.Play();
 
         }
     }
-   
-  
+
+    public void exit()
+    {
+        Application.Quit();
+    }
+
+    public void Home()
+    {
+        SceneManager.LoadScene("Start");
+    }
 }
