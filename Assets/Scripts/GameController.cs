@@ -194,7 +194,6 @@ public class GameController : MonoBehaviour
     IEnumerator createNewStarCoroutine()
     {
         yield return new WaitForSeconds(0.2f);
-        Debug.Log("--------" + GameObject.FindGameObjectWithTag("Star"));
         if (GameObject.FindGameObjectWithTag("Star") == null)
         {
             float fPoint = Random.Range(0, starPoints.Length - 1);
@@ -264,13 +263,14 @@ public class GameController : MonoBehaviour
         var currentActiveTheme =  PlayerPrefs.GetString("ActiveTheme");
 
         // setActive Theme 
-        if (currentActiveTheme != "-1")
+        if (currentActiveTheme != "0")
         {
             ball.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/ball"); 
             canon.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/cannon"); 
             wheel.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/wheel"); 
             background.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("themes/" + currentActiveTheme + "/background");
         }
+
         // Set Active Tool 
         var activeTool = PlayerPrefs.GetString("ActiveTool");
         if(activeTool == "a")
@@ -284,6 +284,10 @@ public class GameController : MonoBehaviour
         if (activeTool == "c")
         {
             tools[2].SetActive(true);
+        }
+        if (activeTool == "d")
+        {
+            tools[3].SetActive(true);
         }
     }
 }

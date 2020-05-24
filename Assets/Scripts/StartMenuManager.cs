@@ -19,13 +19,15 @@ public class StartMenuManager : MonoBehaviour
             PlayerPrefs.SetString("ActiveTheme", "0");
             PlayerPrefs.SetString("AvailableItems", "0-");
             
-            PlayerPrefs.SetInt("Coins", 20000);
+            PlayerPrefs.SetInt("Coins", 30000);
             // Set Prices Of Items 
-            PlayerPrefs.SetInt("1", 500);
-            PlayerPrefs.SetInt("2", 1000);
-            PlayerPrefs.SetInt("a", 1200);
-            PlayerPrefs.SetInt("b", 1800);
-            PlayerPrefs.SetInt("c", 10000);
+            PlayerPrefs.SetInt("1", 1000);
+            PlayerPrefs.SetInt("2", 2000);
+
+            PlayerPrefs.SetInt("a", 3500);
+            PlayerPrefs.SetInt("b", 10000);
+            PlayerPrefs.SetInt("c", 6000);
+            PlayerPrefs.SetInt("d", 12000);
         }
     }
     // Start is called before the first frame update

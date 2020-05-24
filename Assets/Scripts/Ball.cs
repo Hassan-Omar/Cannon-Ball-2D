@@ -96,6 +96,10 @@ public class Ball : MonoBehaviour
                 basketManager.moveSpeed = (value - 50);
                 basketManager.moveFlag = true;
             }
+            else 
+            {
+                GameObject.FindGameObjectWithTag("Canon").GetComponent<CannonMover>().enabled = !GameObject.FindGameObjectWithTag("Canon").GetComponent<CannonMover>().enabled;
+            }
 
             StartCoroutine("delayDestroy");
         }

@@ -138,7 +138,7 @@ public class StoreHandler : MonoBehaviour
     {
         if (getAllAailableItems().Contains(id))
         {
-            for (int i = 3; i < 6; i++)
+            for (int i = 3; i < 7; i++)
             {
                 selectionImage[i].SetActive(false);
             }
@@ -153,6 +153,10 @@ public class StoreHandler : MonoBehaviour
             else if (id == "c")
             {
                 selectionImage[5].SetActive(true);
+            }
+            else if (id == "d")
+            {
+                selectionImage[6].SetActive(true);
             }
         }
     }
