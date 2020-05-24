@@ -4721,7 +4721,7 @@ PrefabInstance:
     - target: {fileID: 1672229424759817391, guid: 88150cdf31d5d244ba52ef7befd705af,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1672229424759817391, guid: 88150cdf31d5d244ba52ef7befd705af,
         type: 3}
@@ -4772,7 +4772,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fb0b5ffcc7a1c14da4adae5f9433542, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 50
   minVal: 117
   maxVal: 200
 --- !u!1 &2097103146
