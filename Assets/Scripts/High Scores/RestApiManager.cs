@@ -105,7 +105,7 @@ public class RestApiManager : MonoBehaviour
         textToView.text = ""; 
         foreach (TransfaredObj score in arr)
         {
-            textToView.text += "\r\n" + score.name +" : "+ score.score; 
+            textToView.text += "  \r\n" + score.name +" : "+ score.score; 
         }
     }
 

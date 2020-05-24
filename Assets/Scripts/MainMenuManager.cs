@@ -15,30 +15,33 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private Sprite play, pause;
     // Reference of Audio Button , Play-Puse Button
     [SerializeField] private Button audioButton ,play_Puse;
-   
-
-
     public AudioSource backgroundSource;
     // this function close the game 
-    public void exit()
+    
+    private void Start()
     {
-        Application.Quit(); 
+        if(PlayerPrefs.GetInt("Sound")== 1)
+        {
+            backgroundSource.mute = false; 
+        }
+        else
+        {
+            backgroundSource.mute = true ;
+        }
     }
 
-    // this function to open the game page in play store 
-    public void rateUs()
-    {
-        Application.OpenURL("https://play.google.com/store/apps/details?id=com.ahocompany.cannonball");
-    }
+   
 
     public void invertAudioState()
     {
-        
         // invert Button sprite 
         if (!backgroundSource.mute)
             audioButton.GetComponent<Image>().sprite = muteSprite;
         else
+        {
+            PlayerPrefs.SetInt("Sound", 1);
             audioButton.GetComponent<Image>().sprite = audioSprite;
+        }
         // invert boolean state 
         backgroundSource.mute = !backgroundSource.mute;
     }

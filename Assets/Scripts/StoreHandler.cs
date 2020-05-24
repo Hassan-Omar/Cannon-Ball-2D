@@ -37,7 +37,7 @@ public class StoreHandler : MonoBehaviour
     }
     public void loadGame()
     {
-        SceneManager.LoadSceneAsync("CoreGame");
+        SceneManager.LoadSceneAsync("Start");
     }
 
     public void payItem(string ItemId)
@@ -114,18 +114,22 @@ public class StoreHandler : MonoBehaviour
     {
         if (getAllAailableItems().Contains(id))
         { 
-            for (int i=0; i< 2; i++)
+            for (int i=0; i< 3; i++)
             {
                 selectionImage[i].SetActive(false);
             }
 
-            if(id == "1")
+            if (id == "0")
             {
                 selectionImage[0].SetActive(true);
             }
-            else if (id == "2")
+            else if (id == "1")
             {
                 selectionImage[1].SetActive(true);
+            }
+            else if (id == "2")
+            {
+                selectionImage[2].SetActive(true);
             }
         }
     }
@@ -134,21 +138,21 @@ public class StoreHandler : MonoBehaviour
     {
         if (getAllAailableItems().Contains(id))
         {
-            for (int i = 2; i < 5; i++)
+            for (int i = 3; i < 6; i++)
             {
                 selectionImage[i].SetActive(false);
             }
             if (id == "a")
             {
-                selectionImage[2].SetActive(true);
+                selectionImage[3].SetActive(true);
             }
             else if (id == "b")
             {
-                selectionImage[3].SetActive(true);
+                selectionImage[4].SetActive(true);
             }
             else if (id == "c")
             {
-                selectionImage[4].SetActive(true);
+                selectionImage[5].SetActive(true);
             }
         }
     }
