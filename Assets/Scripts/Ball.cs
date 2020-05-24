@@ -18,14 +18,14 @@ public class Ball : MonoBehaviour
     private GameController gameController;
     // to solve multi increase problem 
     private bool istouchedWithGoal = false;
-
+    private CannonMover cannonMover;
     private void Start()
     {
         scoresManager = GameObject.FindGameObjectWithTag("Engine").GetComponent<ScoresManager>();
         gameController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameController>();
         // disable line renderer 
         GetComponent<TrailRenderer>().widthMultiplier = 0;
-       
+        cannonMover = GameObject.FindGameObjectWithTag("Canon").GetComponent<CannonMover>();
     }
 
 
@@ -96,9 +96,9 @@ public class Ball : MonoBehaviour
                 basketManager.moveSpeed = (value - 50);
                 basketManager.moveFlag = true;
             }
-            else 
+            else if (value > 200)
             {
-                GameObject.FindGameObjectWithTag("Canon").GetComponent<CannonMover>().enabled = !GameObject.FindGameObjectWithTag("Canon").GetComponent<CannonMover>().enabled;
+                cannonMover.enabled = !cannonMover.enabled;
             }
 
             StartCoroutine("delayDestroy");

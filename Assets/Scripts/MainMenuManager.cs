@@ -72,6 +72,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void Home()
     {
+        Time.timeScale = 1; 
         SceneManager.LoadScene("Start");
     }
 }
