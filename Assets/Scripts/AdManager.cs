@@ -3,7 +3,7 @@ using System;
 using GoogleMobileAds.Api;
 
 public class AdManager : MonoBehaviour
-{ 
+{
     [SerializeField] private StoreHandler handler;
     // this will be instance of my 
     public static AdManager instance;
@@ -83,7 +83,7 @@ public class AdManager : MonoBehaviour
         }
         else
         { 
-            RequestFullScreenAd();
+            ShowFullScreenAd();
         }
     }
 
@@ -105,7 +105,7 @@ public class AdManager : MonoBehaviour
         if (rewardedAd.IsLoaded())
         {
             rewardedAd.Show();
-
+            StartCoroutine("disableLoading");
         }
         else
         {
@@ -144,5 +144,5 @@ public class AdManager : MonoBehaviour
         RequestRewardedAd();
     }
  
-
+    
 }

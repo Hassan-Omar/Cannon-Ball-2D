@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class SmartZone: MonoBehaviour
 {
     [SerializeField] Transform CenterOfBasketBallNet;
     private Rigidbody2D rb; 
     [SerializeField]private Color color;
+   
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Ball")
@@ -20,6 +22,21 @@ public class SmartZone: MonoBehaviour
             tr.widthMultiplier = 100;
             tr.startColor = color;
             tr.endColor = Color.black;
+            StartCoroutine("changColor");
+
         }
+    }
+
+    private void FixedUpdate()
+    {
+
+        transform.Rotate(transform.forward * Time.deltaTime * 100);
+    }
+
+    IEnumerator changColor()
+    {
+        yield return new WaitForSeconds(Random.Range(1, 2));
+        color = new Color(Random.Range(0.2f, 1), Random.Range(0.2f, 1), Random.Range(0.1f, 1), Random.Range(0.5f, 1));
+        transform.GetComponent<SpriteRenderer>().color = color; 
     }
 }
