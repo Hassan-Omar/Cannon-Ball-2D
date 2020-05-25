@@ -73,6 +73,11 @@ public class LoadingAnimator : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         loadingText.text = " ......";
         yield return new WaitForSeconds(0.1f);
+        loadingText.text = " .";
+        yield return new WaitForSeconds(0.2f);
+        loadingText.text = " ..";
+        yield return new WaitForSeconds(0.1f);
+        loadingText.text = " ...";
         transform.gameObject.SetActive(false);
     }
 }

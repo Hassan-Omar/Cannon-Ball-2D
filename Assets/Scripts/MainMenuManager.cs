@@ -72,7 +72,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void Home()
     {
-        Time.timeScale = 1; 
-        SceneManager.LoadScene("Start");
+        SceneManager.LoadSceneAsync("Start");
+        Time.timeScale = 1;
+        GameController.toutchFlag = true; 
     }
 }

@@ -4,7 +4,6 @@ using GoogleMobileAds.Api;
 
 public class AdManager : MonoBehaviour
 { 
-    public bool flag = false;
     [SerializeField] private StoreHandler handler;
     // this will be instance of my 
     public static AdManager instance;
@@ -108,7 +107,10 @@ public class AdManager : MonoBehaviour
             rewardedAd.Show();
 
         }
-        //StartCoroutine("increaseAmmo");
+        else
+        {
+            ShowFullScreenAd();
+        }
         RequestRewardedAd();
 
     }
@@ -117,36 +119,29 @@ public class AdManager : MonoBehaviour
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public void HandleOnAdClosed(object sender, EventArgs args)
     {
-        MonoBehaviour.print("HandleAdClosed event received");
-
+        PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins") + 5);
+        handler.updateTxt(PlayerPrefs.GetInt("Coins"));
+        RequestFullScreenAd();
 
     }
-
-
-
-
-
 
 
     public void HandleUserEarnedReward(object sender, Reward args)
     {
         string type = args.Type;
         double amount = args.Amount;
-        MonoBehaviour.print(
-            "HandleRewardBasedVideoRewarded event received for "
-                        + amount.ToString() + " " + type);
 
-        Time.timeScale = 1;
-
-        flag = true;
-
+        PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins") + 15);
+        handler.updateTxt(PlayerPrefs.GetInt("Coins"));
+        RequestRewardedAd();
 
     }
 
     public void HandleRewardedAdClosed(object sender, EventArgs args)
     {
-        PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins")+10);
+        PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins")+15);
         handler.updateTxt(PlayerPrefs.GetInt("Coins"));
+        RequestRewardedAd();
     }
  
 
