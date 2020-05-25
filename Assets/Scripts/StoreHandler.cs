@@ -16,7 +16,7 @@ public class StoreHandler : MonoBehaviour
         updateTxt(coins);
         var avalabileComps = getAllAailableItems(); 
         // check on The Items that is already Have 
-        for(int i=0; i<5; i++)
+        for(int i=0; i<7; i++)
         {
             if(avalabileComps.Contains(allItemsComponent[i].gameObject.name.ToString()))
             {
@@ -26,9 +26,16 @@ public class StoreHandler : MonoBehaviour
                 compInChilderen[0].gameObject.SetActive(false);
                 compInChilderen[1].gameObject.SetActive(false);
                 // Remove Buy Btn 
-                allItemsComponent[i].GetComponentInChildren<Button>().gameObject.SetActive(false);
+                if(i>0)
+                {
+                    allItemsComponent[i].GetComponentInChildren<Button>().gameObject.SetActive(false);
+                }
             }
         }
+
+        // GET SELECTED ITEM 
+        updateAfterSelect(PlayerPrefs.GetString("ActiveTheme"));
+        updateAfterSelect_Tool(PlayerPrefs.GetString("ActiveTool"));
     }
     public void updateTxt(int val)
     {

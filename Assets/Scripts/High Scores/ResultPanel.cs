@@ -8,6 +8,6 @@ public class ResultPanel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        restAPI.getTopScores(10);
+        restAPI.getMyScores();
     }
 }

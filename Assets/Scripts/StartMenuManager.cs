@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class StartMenuManager : MonoBehaviour
 {
-    [SerializeField] private Sprite mute;
-    [SerializeField] private Sprite unMute;
     [SerializeField] private GameObject loading;
 
     private int firstTime; 
@@ -18,7 +16,8 @@ public class StartMenuManager : MonoBehaviour
         {
             PlayerPrefs.SetString("ActiveTheme", "0");
             PlayerPrefs.SetString("AvailableItems", "0-");
-            
+            PlayerPrefs.SetInt("Sound", 1);
+
             PlayerPrefs.SetInt("Coins", 30000);
             // Set Prices Of Items 
             PlayerPrefs.SetInt("1", 1000);
@@ -63,19 +62,5 @@ public class StartMenuManager : MonoBehaviour
     {
         Application.OpenURL("https://" + url);
     }
-    public void Mute_UnMuteSound(Button btn)
-    {
-        if(PlayerPrefs.GetInt("Sound") == 0)
-        {
-            PlayerPrefs.SetInt("Sound", 1);
-            btn.GetComponent<Image>().sprite = unMute;
-
-        }
-        else
-        {
-            PlayerPrefs.SetInt("Sound", 0);
-            btn.GetComponent<Image>().sprite = mute;
-
-        }
-    }
+   
 }
