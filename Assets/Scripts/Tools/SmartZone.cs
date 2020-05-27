@@ -4,9 +4,10 @@ using System.Collections;
 public class SmartZone: MonoBehaviour
 {
     [SerializeField] Transform CenterOfBasketBallNet;
-    private Rigidbody2D rb; 
-    [SerializeField]private Color color;
-   
+    private Rigidbody2D rb;
+    [SerializeField] private Color color;
+    [SerializeField] private TimeManager timeManager;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "Ball")
@@ -23,13 +24,18 @@ public class SmartZone: MonoBehaviour
             tr.startColor = color;
             tr.endColor = Color.black;
             StartCoroutine("changColor");
+            timeManager.doSlowMotion(0.2f);
 
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        timeManager.backToNormal();
+    }
+
     private void FixedUpdate()
     {
-
         transform.Rotate(transform.forward * Time.deltaTime * 100);
     }
 
