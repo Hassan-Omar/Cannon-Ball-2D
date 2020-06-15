@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class StartMenuManager : MonoBehaviour
@@ -20,6 +19,7 @@ public class StartMenuManager : MonoBehaviour
 
             PlayerPrefs.SetInt("Coins", 30000);
             // Set Prices Of Items 
+            PlayerPrefs.SetInt("0", 0);
             PlayerPrefs.SetInt("1", 1000);
             PlayerPrefs.SetInt("2", 2000);
 
@@ -31,15 +31,14 @@ public class StartMenuManager : MonoBehaviour
     }
     // Start is called before the first frame update
     public void startBTN()
-   {
-
+    {
+        loading.SetActive(true);
         if (firstTime == 0)
         {
             SceneManager.LoadSceneAsync("Tutorial");
         }
         else
         {
-            loading.SetActive(true);
             SceneManager.LoadSceneAsync("CoreGame");
         }
 
@@ -47,6 +46,7 @@ public class StartMenuManager : MonoBehaviour
 
     public void openTutorial()
     {
+        loading.SetActive(true);
         SceneManager.LoadSceneAsync("Tutorial");
     }
     public void openStore()

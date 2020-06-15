@@ -7,6 +7,7 @@ public class StoreHandler : MonoBehaviour
 {
     [SerializeField] private GameObject[] allItemsComponent;
     [SerializeField] private GameObject[] selectionImage;
+    [SerializeField] private GameObject[] buttons;
     [SerializeField] private Text text;
     [SerializeField] private GameObject panel;
     public int coins; 
@@ -58,7 +59,7 @@ public class StoreHandler : MonoBehaviour
          */
 
         // check if coins > item's price 
-        if(coins > PlayerPrefs.GetInt(ItemId))
+        if(coins >= PlayerPrefs.GetInt(ItemId))
         {
             var availabileItems = getAllAailableItems();
             // check if Item Is not exist before 
@@ -71,6 +72,40 @@ public class StoreHandler : MonoBehaviour
                 updateTxt(coins);
                 Debug.Log("Item " + ItemId + "added to List "+coins +"  " + PlayerPrefs.GetInt(ItemId));
 
+                switch (ItemId)
+                {
+                    case "1":
+                        {
+                            updateAfterBuy(0);
+                            break; 
+                        }
+                    case "2":
+                        {
+                            updateAfterBuy(1);
+                            break; 
+                        }
+                    case "a":
+                        {
+                            updateAfterBuy(2);
+                            break; 
+                        }
+                
+                    case "b":
+                        {
+                            updateAfterBuy(3);
+                            break; 
+                        }
+                    case "c":
+                        {
+                            updateAfterBuy(4);
+                            break; 
+                        }
+                    case "d":
+                        {
+                            updateAfterBuy(5);
+                            break; 
+                        }
+                }
             }
 
         }
@@ -168,12 +203,8 @@ public class StoreHandler : MonoBehaviour
         }
     }
 
-    public void updateAfterBuy(GameObject button)
+    private void updateAfterBuy(int index)
     {
-        // check if coins > item's price 
-        if (coins > PlayerPrefs.GetInt(button.transform.parent.name))
-        {
-            button.SetActive(false);
-        }
+        buttons[index].SetActive(false);
     }
 }

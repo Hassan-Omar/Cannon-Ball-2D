@@ -105,7 +105,7 @@ public class AdManager : MonoBehaviour
         if (rewardedAd.IsLoaded())
         {
             rewardedAd.Show();
-            StartCoroutine("disableLoading");
+            //StartCoroutine("disableLoading");
         }
         else
         {
@@ -133,14 +133,14 @@ public class AdManager : MonoBehaviour
 
         PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins") + 15);
         handler.updateTxt(PlayerPrefs.GetInt("Coins"));
-        RequestRewardedAd();
+        //RequestRewardedAd();
 
     }
 
     public void HandleRewardedAdClosed(object sender, EventArgs args)
     {
-        PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins")+15);
-        handler.updateTxt(PlayerPrefs.GetInt("Coins"));
+        //PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins")+15);
+       //handler.updateTxt(PlayerPrefs.GetInt("Coins"));
         RequestRewardedAd();
     }
  

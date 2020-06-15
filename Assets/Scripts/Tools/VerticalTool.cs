@@ -25,14 +25,14 @@ public class VerticalTool : MonoBehaviour
             {
                 if (transform.localPosition.y > minVal)
                 {
-                    moveDelta(200, direction);
+                    moveDelta(300, direction);
                 }
             }
             else if (direction == 1)
             {
                 if (transform.localPosition.y < maxVal)
                 {
-                    moveDelta(200, direction);
+                    moveDelta(300, direction);
                 }
 
             }
