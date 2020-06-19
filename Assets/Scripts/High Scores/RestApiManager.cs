@@ -19,8 +19,7 @@ public class RestApiManager : MonoBehaviour
 
     private void Start()
     {
-        playerName = PlayerPrefs.GetString("PlayerName");
-        if(playerName.Equals(""))
+        if(!PlayerPrefs.HasKey("PlayerName"))
         {
             // this means first Time to submit 
             enterNamePanel.SetActive(true);

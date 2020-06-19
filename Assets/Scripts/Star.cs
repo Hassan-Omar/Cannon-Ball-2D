@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 /*
  * This Class Written by H.Omar 
@@ -67,6 +66,7 @@ public class Star : MonoBehaviour
         
 
         GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameController>().createNewStar();
+        FindObjectOfType<GameController>().collectStars += 1; 
         Destroy(this.gameObject);
     }
 

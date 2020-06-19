@@ -16,8 +16,7 @@ public class StartMenuManager : MonoBehaviour
             PlayerPrefs.SetString("ActiveTheme", "0");
             PlayerPrefs.SetString("AvailableItems", "0-");
             PlayerPrefs.SetInt("Sound", 1);
-
-            PlayerPrefs.SetInt("Coins", 30000);
+            
             // Set Prices Of Items 
             PlayerPrefs.SetInt("0", 0);
             PlayerPrefs.SetInt("1", 1000);

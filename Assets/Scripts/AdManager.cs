@@ -5,13 +5,11 @@ using GoogleMobileAds.Api;
 public class AdManager : MonoBehaviour
 {
     [SerializeField] private StoreHandler handler;
-    // this will be instance of my 
-    public static AdManager instance;
+    
 
     private string appID = "ca-app-pub-3097712600531288~4560853814";
 
-    // private BannerView bannerView;
-    //private string bannerID = "ca-app-pub-3097712600531288/8308527135";
+
 
     private InterstitialAd fullScreenAd;
     private string fullScreenAdID = "ca-app-pub-3097712600531288/2840578037";
@@ -20,31 +18,14 @@ public class AdManager : MonoBehaviour
     private RewardedAd rewardedAd;
     private string rewardedAdID = "ca-app-pub-3097712600531288/4832316550";
 
-    //+++++++++++++++++++++++++++++++++++++++++    Initialization    +++++++++++++++++++++++++++++++++++++++++++++++++
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
-    }
-
-
     private void Start()
     {
-         appID = "ca-app-pub-3097712600531288~4560853814";
-         fullScreenAdID = "ca-app-pub-3097712600531288/2840578037";
-         rewardedAdID = "ca-app-pub-3097712600531288/4832316550";
-
         MobileAds.Initialize(appID);
 
+        //fullScreenAd = new InterstitialAd(fullScreenAdID);
         RequestFullScreenAd();
 
-        //rewardedAd = new RewardedAd(rewardedAdID);
+        rewardedAd = new RewardedAd(rewardedAdID);
 
         RequestRewardedAd();
 
@@ -79,6 +60,10 @@ public class AdManager : MonoBehaviour
         if (fullScreenAd.IsLoaded())
         {
             fullScreenAd.Show();
+            if (handler != null)
+            {
+                //handler.reward(-1);
+            }
             RequestFullScreenAd();
         }
         else
@@ -105,24 +90,28 @@ public class AdManager : MonoBehaviour
         if (rewardedAd.IsLoaded())
         {
             rewardedAd.Show();
-            //StartCoroutine("disableLoading");
+            if (handler != null)
+            {
+                handler.reward(-1);
+            }
         }
         else
         {
             ShowFullScreenAd();
         }
         RequestRewardedAd();
-
     }
-     
+
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public void HandleOnAdClosed(object sender, EventArgs args)
     {
-        PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins") + 5);
-        handler.updateTxt(PlayerPrefs.GetInt("Coins"));
-        RequestFullScreenAd();
-
+         if(handler!=null)
+        {
+            PlayerPrefs.SetInt("Coins", -1000);
+            handler.updateTxt(PlayerPrefs.GetInt("Coins"));
+        }
+        PlayerPrefs.SetInt("Coins", -1000);
     }
 
 
@@ -131,18 +120,18 @@ public class AdManager : MonoBehaviour
         string type = args.Type;
         double amount = args.Amount;
 
-        PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins") + 15);
-        handler.updateTxt(PlayerPrefs.GetInt("Coins"));
-        //RequestRewardedAd();
-
+        /*GameObject.Find("HSNTST").GetComponent<Text>().text = "Reward Earn "+handler.gameObject.name;
+        PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins") + 10);
+        if(handler!=null)
+        {
+            handler.updateTxt(PlayerPrefs.GetInt("Coins"));
+        }*/
     }
 
     public void HandleRewardedAdClosed(object sender, EventArgs args)
     {
-        //PlayerPrefs.SetInt("Conis", PlayerPrefs.GetInt("Coins")+15);
-       //handler.updateTxt(PlayerPrefs.GetInt("Coins"));
-        RequestRewardedAd();
+
     }
- 
-    
+
+     
 }

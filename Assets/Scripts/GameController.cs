@@ -11,6 +11,8 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     public Text text;
+    [SerializeField]private Text earnedTXT;
+    public int collectStars; 
     public int forceValue;
     public static bool toutchFlag = true;
     // Refernce on game objs that will be created @ Run Time 
@@ -236,9 +238,11 @@ public class GameController : MonoBehaviour
         basket.SetActive(false);
         toolParents.SetActive(false);
         endGamePanel.SetActive(true);
-       
+        earnedTXT.text = collectStars+"";
+        PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + collectStars); 
         ballCounter = 0;
         this.failsNum = 0;
+        collectStars = 0;
         // update stored value if current is better
         var scoresManager = engine.GetComponent<ScoresManager>();
         // update if current score is better than stored  

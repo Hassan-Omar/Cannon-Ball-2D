@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-
+using System.Collections;
 public class StoreHandler : MonoBehaviour
 {
     [SerializeField] private GameObject[] allItemsComponent;
@@ -70,7 +70,6 @@ public class StoreHandler : MonoBehaviour
                 coins -= PlayerPrefs.GetInt(ItemId);
                 PlayerPrefs.SetInt("Coins", coins);
                 updateTxt(coins);
-                Debug.Log("Item " + ItemId + "added to List "+coins +"  " + PlayerPrefs.GetInt(ItemId));
 
                 switch (ItemId)
                 {
@@ -206,5 +205,24 @@ public class StoreHandler : MonoBehaviour
     private void updateAfterBuy(int index)
     {
         buttons[index].SetActive(false);
+    }
+
+    public void reward(int type)
+    {
+        if(type==1)
+        {
+            StartCoroutine(delayReward(1));
+        }
+        else
+        {
+            StartCoroutine(delayReward(15));
+        }
+    }
+
+    IEnumerator delayReward(int timeDelay)
+    {
+        yield return new WaitForSeconds(timeDelay);
+        PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + 10);
+        updateTxt(PlayerPrefs.GetInt("Coins"));
     }
 }
