@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Proyecto26;
-using UnityEditor;
+using Proyecto26; 
 using System;
 using UnityEngine.SceneManagement;
 /// <summary>
@@ -26,20 +25,24 @@ public class RestApiManager : MonoBehaviour
         }
         else
         {
+            playerName = PlayerPrefs.GetString("PlayerName");
+            if(ScoresManager.points>0)
+            {
+                addNewScores();
+            }
             loadingPanel.SetActive(true);
         }
-
-        //getMyScores();
-        //getTopScores(10);
+         
     }
 
     public void getMyScores()
     {
-        RestClient.GetArray<TransfaredObj>(this.baseUrl + "/scores/like/"+ playerName).Then(Score =>
+        RestClient.GetArray<TransfaredObj>(this.baseUrl + "/scores/like/"+ PlayerPrefs.GetString("PlayerName")).Then(Score =>
         {
             allScores = Score;
             ViewScores(allScores);
         });
+        Debug.Log(this.baseUrl + "/scores/like/" + PlayerPrefs.GetString("PlayerName"));
     }
     public void getTopScores(int num)
     {
@@ -62,41 +65,47 @@ public class RestApiManager : MonoBehaviour
         }).Catch(err => {
             Debug.Log(err); 
         });
+        Debug.Log(myScore.name +"    "+ myScore.score);
+
     }
     /// <summary>
     /// Function To Check If the Name Available 
     /// </summary>
     public void checkName(InputField userEnteredName)
     {
-        if(playerName.Equals(""))
+        if(userEnteredName.text!="" && userEnteredName.text!=null)
         {
-            // this means the player this is first time to play 
-            // check if the name is available 
-            RestClient.GetArray<TransfaredObj>(this.baseUrl + "/scores/like/" + userEnteredName.text).Then(Score =>
+            playerName = PlayerPrefs.GetString("PlayerName");
+            if (playerName.Equals(""))
             {
-
-                if (Score != null)
+                // this means the player this is first time to play 
+                // check if the name is available 
+                RestClient.GetArray<TransfaredObj>(this.baseUrl + "/scores/like/" + userEnteredName.text).Then(Score =>
                 {
-                    // This means the name isn't Available 
-                    isNotAvailable.SetActive(true);
 
-                }
-            }).Catch(err =>
-            {
-                   // this means the name is Available 
+                    if (Score != null)
+                    {
+                        // This means the name isn't Available 
+                        isNotAvailable.SetActive(true);
+
+                    }
+                }).Catch(err =>
+                {
+                    // this means the name is Available 
                     isNotAvailable.SetActive(false);
                     // Now Save this Name 
-                     PlayerPrefs.SetString("PlayerName", userEnteredName.text);
-                 this.playerName = userEnteredName.text; 
-                // Visualize Loading Bar 
-                loadingPanel.SetActive(true);
+                    PlayerPrefs.SetString("PlayerName", userEnteredName.text);
+                    this.playerName = userEnteredName.text;
+                    // Visualize Loading Bar 
+                    loadingPanel.SetActive(true);
                     enterNamePanel.SetActive(false);
-                    
 
-                // Now Save This Score To DB 
-                addNewScores();
-            });
 
+                    // Now Save This Score To DB 
+                    addNewScores();
+                });
+
+            }
         }
     }
     public void ViewScores(TransfaredObj[] arr)

@@ -127,7 +127,7 @@ public class GameController : MonoBehaviour
                 GameObject.FindGameObjectWithTag("Canon").GetComponent<Animator>().enabled = true;
             if (Input.GetMouseButtonDown(0))
             {
-                    Debug.Log("Heek");
+ 
                 project(ballCounter);
                 ballCounter++;
 

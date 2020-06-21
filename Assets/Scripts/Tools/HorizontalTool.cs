@@ -33,14 +33,14 @@ public class HorizontalTool : MonoBehaviour
             {
                 if(transform.localPosition.x > minVal)
                 {
-                    moveDelta(300, direction);
+                    moveDelta(340, direction);
                 }
             }
             else if(direction == 1)
             {
                 if(transform.localPosition.x < maxVal)
                 {
-                    moveDelta(300, direction);
+                    moveDelta(340, direction);
                 }
 
             }
